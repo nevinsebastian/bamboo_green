@@ -69,13 +69,15 @@ export default function Navbar() {
               >
                 Contact
               </Link>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-amber-800 text-amber-50 px-6 py-2 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
-              >
-                Book Now
-              </motion.button>
+              <Link href="/accommodation">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-amber-800 text-amber-50 px-6 py-2 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
+                >
+                  Book Now
+                </motion.button>
+              </Link>
             </div>
           </div>
 
@@ -159,13 +161,15 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-amber-800 text-amber-50 px-6 py-2 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
-            >
-              Book Now
-            </motion.button>
+            <Link href="/accommodation">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-amber-800 text-amber-50 px-6 py-2 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
+              >
+                Book Now
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       )}

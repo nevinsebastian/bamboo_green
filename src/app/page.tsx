@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Link from "next/link";
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -43,15 +44,17 @@ export default function Home() {
               Bamboo Green
             </h1>
             <p className="text-xl md:text-2xl max-w-2xl mb-8 text-amber-100 font-light">
-              Experience the authentic beauty of Kerala's backwaters
+              Experience the authentic beauty of Kerala&apos;s backwaters
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-amber-800 text-amber-50 px-8 py-4 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
-            >
-              Book Your Experience
-            </motion.button>
+            <Link href="/accommodation">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-amber-800 text-amber-50 px-8 py-4 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
+              >
+                Book Your Experience
+              </motion.button>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -195,13 +198,15 @@ export default function Home() {
                   <p className="text-lg mb-6 text-amber-100 font-light">
                     Rent a single room in our luxurious houseboats
                   </p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
-                  >
-                    Learn More
-                  </motion.button>
+                  <Link href="/accommodation">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
+                    >
+                      Learn More
+                    </motion.button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -226,13 +231,15 @@ export default function Home() {
                   <p className="text-lg mb-6 text-amber-100 font-light">
                     Rent the entire resort for exclusive use
                   </p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
-                  >
-                    Learn More
-                  </motion.button>
+                  <Link href="/accommodation">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 shadow-lg"
+                    >
+                      Learn More
+                    </motion.button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
