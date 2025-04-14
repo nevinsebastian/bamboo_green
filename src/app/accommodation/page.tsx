@@ -18,6 +18,7 @@ interface Room {
 export default function Accommodation() {
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
   const [bookingDetails, setBookingDetails] = useState({
     adults: 2,
     children: 0,
@@ -84,7 +85,7 @@ export default function Accommodation() {
 
   const calculateTotalPrice = () => {
     if (!selectedRoom || !bookingDetails.checkIn || !bookingDetails.checkOut)
-      return 0;
+      return { total: 0, tax: 0 };
 
     const nights = Math.ceil(
       (new Date(bookingDetails.checkOut).getTime() -
@@ -93,14 +94,15 @@ export default function Accommodation() {
     );
 
     let total = selectedRoom.price * nights;
-    const extraGuests = Math.max(
-      0,
-      bookingDetails.adults + bookingDetails.children - 2
-    );
-    total += extraGuests * 300 * nights;
-    if (bookingDetails.hasPet) total += 300 * nights;
+    const extraAdults = Math.max(0, bookingDetails.adults - 2);
+    const extraChildren = bookingDetails.children;
+    total += (extraAdults * 300 + extraChildren * 200) * nights;
 
-    return total;
+    // Add 18% GST
+    const tax = total * 0.18;
+    total += tax;
+
+    return { total, tax };
   };
 
   const handleBookingClick = (room: Room) => {
@@ -446,7 +448,7 @@ export default function Accommodation() {
                         className="rounded text-amber-600 focus:ring-amber-500 h-5 w-5"
                       />
                       <span className="text-amber-900 text-sm sm:text-base">
-                        Bringing a pet? (Additional ₹300/night)
+                        Bringing a pet?
                       </span>
                     </label>
                   </div>
@@ -510,30 +512,29 @@ export default function Accommodation() {
                         </span>
                       </div>
                       {bookingDetails.adults + bookingDetails.children > 2 && (
-                        <div className="flex justify-between text-sm sm:text-base">
-                          <span className="text-amber-900">
-                            Extra guests (
-                            {bookingDetails.adults +
-                              bookingDetails.children -
-                              2}{" "}
-                            × ₹300/night)
-                          </span>
-                          <span className="text-amber-900 font-medium">
-                            ₹
-                            {(bookingDetails.adults +
-                              bookingDetails.children -
-                              2) *
-                              300}
-                            /night
-                          </span>
-                        </div>
-                      )}
-                      {bookingDetails.hasPet && (
-                        <div className="flex justify-between text-sm sm:text-base">
-                          <span className="text-amber-900">Pet fee</span>
-                          <span className="text-amber-900 font-medium">
-                            ₹300/night
-                          </span>
+                        <div className="space-y-2">
+                          {bookingDetails.adults > 2 && (
+                            <div className="flex justify-between text-sm sm:text-base">
+                              <span className="text-amber-900">
+                                Extra adults ({bookingDetails.adults - 2} ×
+                                ₹300/night)
+                              </span>
+                              <span className="text-amber-900 font-medium">
+                                ₹{(bookingDetails.adults - 2) * 300}/night
+                              </span>
+                            </div>
+                          )}
+                          {bookingDetails.children > 0 && (
+                            <div className="flex justify-between text-sm sm:text-base">
+                              <span className="text-amber-900">
+                                Children ({bookingDetails.children} ×
+                                ₹200/night)
+                              </span>
+                              <span className="text-amber-900 font-medium">
+                                ₹{bookingDetails.children * 200}/night
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
                       {bookingDetails.checkIn && bookingDetails.checkOut && (
@@ -550,32 +551,154 @@ export default function Accommodation() {
                           </span>
                         </div>
                       )}
-                      <div className="border-t border-amber-200 my-2"></div>
-                      <div className="flex justify-between font-bold text-sm sm:text-base">
-                        <span className="text-amber-900">Total</span>
-                        <span className="text-amber-900">
-                          ₹{calculateTotalPrice()}
-                        </span>
-                      </div>
+                      {bookingDetails.checkIn && bookingDetails.checkOut && (
+                        <>
+                          <div className="flex justify-between text-sm sm:text-base">
+                            <span className="text-amber-900">GST (18%)</span>
+                            <span className="text-amber-900 font-medium">
+                              ₹{calculateTotalPrice().tax.toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="border-t border-amber-200 my-2"></div>
+                          <div className="flex justify-between font-bold text-sm sm:text-base">
+                            <span className="text-amber-900">Total</span>
+                            <span className="text-amber-900">
+                              ₹{calculateTotalPrice().total.toFixed(2)}
+                            </span>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
 
-                  {/* Book Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-base sm:text-lg"
-                    disabled={
-                      !bookingDetails.checkIn || !bookingDetails.checkOut
-                    }
-                  >
-                    Complete Booking
-                  </motion.button>
+                  {/* Book Button and Terms */}
+                  <div className="space-y-2">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-base sm:text-lg"
+                      disabled={
+                        !bookingDetails.checkIn || !bookingDetails.checkOut
+                      }
+                    >
+                      Book
+                    </motion.button>
+                    <p className="text-xs text-amber-600 text-center">
+                      By booking, you agree to our{" "}
+                      <button
+                        onClick={() => setIsTermsModalOpen(true)}
+                        className="text-amber-800 hover:text-amber-900 underline"
+                      >
+                        Terms and Conditions
+                      </button>
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         )}
+
+        {/* Terms and Conditions Modal */}
+        <AnimatePresence>
+          {isTermsModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-lg max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              >
+                <div className="p-4 sm:p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-bold text-amber-900">
+                      Terms and Conditions
+                    </h2>
+                    <button
+                      onClick={() => setIsTermsModalOpen(false)}
+                      className="text-amber-600 hover:text-amber-800"
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="prose prose-amber max-w-none">
+                    <h3 className="text-lg font-medium text-amber-900 mb-2">
+                      Booking Policy
+                    </h3>
+                    <ul className="text-sm text-amber-800 space-y-2">
+                      <li>
+                        • A 50% advance payment is required to confirm the
+                        booking
+                      </li>
+                      <li>
+                        • Cancellation within 7 days of check-in will result in
+                        a 50% charge
+                      </li>
+                      <li>
+                        • Cancellation within 48 hours of check-in will result
+                        in a 100% charge
+                      </li>
+                      <li>
+                        • Check-in time is 2:00 PM and check-out time is 11:00
+                        AM
+                      </li>
+                      <li>
+                        • Early check-in and late check-out are subject to
+                        availability
+                      </li>
+                    </ul>
+
+                    <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
+                      Guest Policy
+                    </h3>
+                    <ul className="text-sm text-amber-800 space-y-2">
+                      <li>
+                        • Maximum occupancy must not exceed the room's capacity
+                      </li>
+                      <li>• Children under 5 years stay free of charge</li>
+                      <li>• Extra beds are available at an additional cost</li>
+                      <li>• Pets are allowed with prior notice</li>
+                    </ul>
+
+                    <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
+                      Privacy Policy
+                    </h3>
+                    <ul className="text-sm text-amber-800 space-y-2">
+                      <li>
+                        • We collect personal information for booking purposes
+                        only
+                      </li>
+                      <li>
+                        • Your information will not be shared with third parties
+                      </li>
+                      <li>
+                        • We may contact you regarding your booking or for
+                        feedback
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </AnimatePresence>
 
       <Footer />
