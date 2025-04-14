@@ -332,6 +332,7 @@ export default function Accommodation() {
       <AnimatePresence>
         {isBookingModalOpen && selectedRoom && (
           <motion.div
+            key="booking-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -617,136 +618,28 @@ export default function Accommodation() {
         )}
 
         {/* Terms and Conditions Modal */}
-        <AnimatePresence>
-          {isTermsModalOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-lg max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-              >
-                <div className="p-4 sm:p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold text-amber-900">
-                      Terms and Conditions
-                    </h2>
-                    <button
-                      onClick={() => setIsTermsModalOpen(false)}
-                      className="text-amber-600 hover:text-amber-800"
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="prose prose-amber max-w-none">
-                    <h3 className="text-lg font-medium text-amber-900 mb-2">
-                      Booking Policy
-                    </h3>
-                    <ul className="text-sm text-amber-800 space-y-2">
-                      <li>
-                        • A 50% advance payment is required to confirm the
-                        booking
-                      </li>
-                      <li>
-                        • Cancellation within 7 days of check-in will result in
-                        a 50% charge
-                      </li>
-                      <li>
-                        • Cancellation within 48 hours of check-in will result
-                        in a 100% charge
-                      </li>
-                      <li>
-                        • Check-in time is 2:00 PM and check-out time is 11:00
-                        AM
-                      </li>
-                      <li>
-                        • Early check-in and late check-out are subject to
-                        availability
-                      </li>
-                    </ul>
-
-                    <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
-                      Guest Policy
-                    </h3>
-                    <ul className="text-sm text-amber-800 space-y-2">
-                      <li>
-                        • Maximum occupancy must not exceed the room's capacity
-                      </li>
-                      <li>• Children under 5 years stay free of charge</li>
-                      <li>• Extra beds are available at an additional cost</li>
-                      <li>• Pets are allowed with prior notice</li>
-                    </ul>
-
-                    <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
-                      Privacy Policy
-                    </h3>
-                    <ul className="text-sm text-amber-800 space-y-2">
-                      <li>
-                        • We collect personal information for booking purposes
-                        only
-                      </li>
-                      <li>
-                        • Your information will not be shared with third parties
-                      </li>
-                      <li>
-                        • We may contact you regarding your booking or for
-                        feedback
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Guest Details Modal */}
-        {isGuestDetailsModalOpen && (
+        {isTermsModalOpen && (
           <motion.div
+            key="terms-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white rounded-2xl max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-lg max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 sm:p-8">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h2 className="text-2xl font-bold text-amber-900">
-                      Complete your booking
-                    </h2>
-                    <p className="text-amber-700 mt-1">
-                      {selectedRoom?.name} •{" "}
-                      {new Date(bookingDetails.checkIn).toLocaleDateString()} -{" "}
-                      {new Date(bookingDetails.checkOut).toLocaleDateString()}
-                    </p>
-                  </div>
+              <div className="p-4 sm:p-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-bold text-amber-900">
+                    Terms and Conditions
+                  </h2>
                   <button
-                    onClick={() => setIsGuestDetailsModalOpen(false)}
-                    className="text-amber-600 hover:text-amber-800 transition-colors"
+                    onClick={() => setIsTermsModalOpen(false)}
+                    className="text-amber-600 hover:text-amber-800"
                   >
                     <svg
                       className="w-6 h-6"
@@ -763,13 +656,119 @@ export default function Accommodation() {
                     </svg>
                   </button>
                 </div>
+                <div className="prose prose-amber max-w-none">
+                  <h3 className="text-lg font-medium text-amber-900 mb-2">
+                    Booking Policy
+                  </h3>
+                  <ul className="text-sm text-amber-800 space-y-2">
+                    <li>
+                      • A 50% advance payment is required to confirm the booking
+                    </li>
+                    <li>
+                      • Cancellation within 7 days of check-in will result in a
+                      50% charge
+                    </li>
+                    <li>
+                      • Cancellation within 48 hours of check-in will result in
+                      a 100% charge
+                    </li>
+                    <li>
+                      • Check-in time is 2:00 PM and check-out time is 11:00 AM
+                    </li>
+                    <li>
+                      • Early check-in and late check-out are subject to
+                      availability
+                    </li>
+                  </ul>
 
-                <div className="space-y-6">
-                  <div className="bg-amber-50 p-4 rounded-xl">
-                    <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                  <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
+                    Guest Policy
+                  </h3>
+                  <ul className="text-sm text-amber-800 space-y-2">
+                    <li>
+                      • Maximum occupancy must not exceed the room's capacity
+                    </li>
+                    <li>• Children under 5 years stay free of charge</li>
+                    <li>• Extra beds are available at an additional cost</li>
+                    <li>• Pets are allowed with prior notice</li>
+                  </ul>
+
+                  <h3 className="text-lg font-medium text-amber-900 mt-4 mb-2">
+                    Privacy Policy
+                  </h3>
+                  <ul className="text-sm text-amber-800 space-y-2">
+                    <li>
+                      • We collect personal information for booking purposes
+                      only
+                    </li>
+                    <li>
+                      • Your information will not be shared with third parties
+                    </li>
+                    <li>
+                      • We may contact you regarding your booking or for
+                      feedback
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Guest Details Modal */}
+        {isGuestDetailsModalOpen && (
+          <motion.div
+            key="guest-details-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-2xl max-w-[95vw] sm:max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
+              <div className="p-4 sm:p-6">
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-amber-900">
+                      Complete your booking
+                    </h2>
+                    <p className="text-amber-700 text-sm mt-1">
+                      {selectedRoom?.name} •{" "}
+                      {new Date(bookingDetails.checkIn).toLocaleDateString()} -{" "}
+                      {new Date(bookingDetails.checkOut).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsGuestDetailsModalOpen(false)}
+                    className="text-amber-600 hover:text-amber-800 transition-colors"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-amber-50 p-3 rounded-xl">
+                    <h3 className="text-base font-semibold text-amber-900 mb-3">
                       Contact Information
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div>
                         <label className="block text-sm font-medium text-amber-800 mb-1">
                           Full Name
@@ -783,7 +782,7 @@ export default function Accommodation() {
                               name: e.target.value,
                             }))
                           }
-                          className="w-full p-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
+                          className="w-full p-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
                           placeholder="Enter your full name"
                         />
                       </div>
@@ -801,18 +800,18 @@ export default function Accommodation() {
                               phone: e.target.value,
                             }))
                           }
-                          className="w-full p-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
+                          className="w-full p-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
                           placeholder="Enter your phone number"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-amber-50 p-4 rounded-xl">
-                    <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                  <div className="bg-amber-50 p-3 rounded-xl">
+                    <h3 className="text-base font-semibold text-amber-900 mb-3">
                       Booking Summary
                     </h3>
-                    <div className="space-y-3 text-amber-800">
+                    <div className="space-y-2 text-amber-800 text-sm">
                       <div className="flex justify-between">
                         <span>Room</span>
                         <span className="font-medium">
@@ -847,7 +846,7 @@ export default function Accommodation() {
                         </div>
                       )}
                       <div className="border-t border-amber-200 my-2"></div>
-                      <div className="flex justify-between text-lg font-semibold text-amber-900">
+                      <div className="flex justify-between text-base font-semibold text-amber-900">
                         <span>Total</span>
                         <span>₹{calculateTotalPrice().total.toFixed(2)}</span>
                       </div>
@@ -857,7 +856,7 @@ export default function Accommodation() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-amber-800 text-amber-50 px-6 py-4 rounded-xl font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-lg shadow-lg"
+                    className="w-full bg-amber-800 text-amber-50 px-4 py-3 rounded-xl font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-base shadow-lg"
                     onClick={handleGuestDetailsSubmit}
                     disabled={!bookingDetails.name || !bookingDetails.phone}
                   >
@@ -872,6 +871,7 @@ export default function Accommodation() {
         {/* Success Modal */}
         {isSuccessModalOpen && (
           <motion.div
+            key="success-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
