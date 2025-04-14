@@ -19,12 +19,16 @@ export default function Accommodation() {
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const [isGuestDetailsModalOpen, setIsGuestDetailsModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [bookingDetails, setBookingDetails] = useState({
     adults: 2,
     children: 0,
     hasPet: false,
     checkIn: "",
     checkOut: "",
+    name: "",
+    phone: "",
   });
 
   const houseboatRooms: Room[] = [
@@ -119,7 +123,19 @@ export default function Accommodation() {
       hasPet: false,
       checkIn: "",
       checkOut: "",
+      name: "",
+      phone: "",
     });
+  };
+
+  const handleBookingSubmit = () => {
+    setIsBookingModalOpen(false);
+    setIsGuestDetailsModalOpen(true);
+  };
+
+  const handleGuestDetailsSubmit = () => {
+    setIsGuestDetailsModalOpen(false);
+    setIsSuccessModalOpen(true);
   };
 
   return (
@@ -580,6 +596,7 @@ export default function Accommodation() {
                       disabled={
                         !bookingDetails.checkIn || !bookingDetails.checkOut
                       }
+                      onClick={handleBookingSubmit}
                     >
                       Book
                     </motion.button>
@@ -699,6 +716,277 @@ export default function Accommodation() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Guest Details Modal */}
+        {isGuestDetailsModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-2xl max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-amber-900">
+                      Complete your booking
+                    </h2>
+                    <p className="text-amber-700 mt-1">
+                      {selectedRoom?.name} •{" "}
+                      {new Date(bookingDetails.checkIn).toLocaleDateString()} -{" "}
+                      {new Date(bookingDetails.checkOut).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsGuestDetailsModalOpen(false)}
+                    className="text-amber-600 hover:text-amber-800 transition-colors"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="bg-amber-50 p-4 rounded-xl">
+                    <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                      Contact Information
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-amber-800 mb-1">
+                          Full Name
+                        </label>
+                        <input
+                          type="text"
+                          value={bookingDetails.name}
+                          onChange={(e) =>
+                            setBookingDetails((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }))
+                          }
+                          className="w-full p-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-amber-800 mb-1">
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          value={bookingDetails.phone}
+                          onChange={(e) =>
+                            setBookingDetails((prev) => ({
+                              ...prev,
+                              phone: e.target.value,
+                            }))
+                          }
+                          className="w-full p-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white transition-all"
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 p-4 rounded-xl">
+                    <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                      Booking Summary
+                    </h3>
+                    <div className="space-y-3 text-amber-800">
+                      <div className="flex justify-between">
+                        <span>Room</span>
+                        <span className="font-medium">
+                          {selectedRoom?.name}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Dates</span>
+                        <span className="font-medium">
+                          {new Date(
+                            bookingDetails.checkIn
+                          ).toLocaleDateString()}{" "}
+                          -{" "}
+                          {new Date(
+                            bookingDetails.checkOut
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Guests</span>
+                        <span className="font-medium">
+                          {bookingDetails.adults} adults
+                          {bookingDetails.children > 0
+                            ? `, ${bookingDetails.children} children`
+                            : ""}
+                        </span>
+                      </div>
+                      {bookingDetails.hasPet && (
+                        <div className="flex justify-between">
+                          <span>Pets</span>
+                          <span className="font-medium">Yes</span>
+                        </div>
+                      )}
+                      <div className="border-t border-amber-200 my-2"></div>
+                      <div className="flex justify-between text-lg font-semibold text-amber-900">
+                        <span>Total</span>
+                        <span>₹{calculateTotalPrice().total.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-amber-800 text-amber-50 px-6 py-4 rounded-xl font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-lg shadow-lg"
+                    onClick={handleGuestDetailsSubmit}
+                    disabled={!bookingDetails.name || !bookingDetails.phone}
+                  >
+                    Confirm Booking
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Success Modal */}
+        {isSuccessModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-2xl max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex flex-col items-center text-center mb-6">
+                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                    <svg
+                      className="w-8 h-8 text-amber-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-amber-900">
+                    Booking Confirmed!
+                  </h2>
+                  <p className="text-amber-700 mt-2">
+                    We&apos;ve sent the details to your phone number
+                  </p>
+                </div>
+
+                <div className="bg-amber-50 p-6 rounded-xl mb-6">
+                  <h3 className="text-lg font-semibold text-amber-900 mb-4">
+                    Booking Details
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-amber-900 font-medium">
+                          {selectedRoom?.name}
+                        </p>
+                        <p className="text-amber-700 text-sm">
+                          {new Date(
+                            bookingDetails.checkIn
+                          ).toLocaleDateString()}{" "}
+                          -{" "}
+                          {new Date(
+                            bookingDetails.checkOut
+                          ).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-amber-900 font-medium">
+                          ₹{calculateTotalPrice().total.toFixed(2)}
+                        </p>
+                        <p className="text-amber-700 text-sm">Total</p>
+                      </div>
+                    </div>
+                    <div className="border-t border-amber-200 pt-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-amber-700 text-sm">Guests</p>
+                          <p className="text-amber-900">
+                            {bookingDetails.adults} adults
+                            {bookingDetails.children > 0
+                              ? `, ${bookingDetails.children} children`
+                              : ""}
+                          </p>
+                        </div>
+                        {bookingDetails.hasPet && (
+                          <div>
+                            <p className="text-amber-700 text-sm">Pets</p>
+                            <p className="text-amber-900">Yes</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-amber-800 mb-4">
+                    Thank you for choosing us, {bookingDetails.name}! We look
+                    forward to hosting you.
+                  </p>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setIsSuccessModalOpen(false);
+                      setBookingDetails({
+                        adults: 2,
+                        children: 0,
+                        hasPet: false,
+                        checkIn: "",
+                        checkOut: "",
+                        name: "",
+                        phone: "",
+                      });
+                    }}
+                    className="bg-amber-100 text-amber-900 px-6 py-3 rounded-xl font-medium hover:bg-amber-200 transition-all duration-300"
+                  >
+                    Done
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       <Footer />
