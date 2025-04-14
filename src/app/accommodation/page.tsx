@@ -323,10 +323,10 @@ export default function Accommodation() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-lg max-w-[95vw] sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-6">
+              <div className="p-4 sm:p-6">
+                <div className="flex justify-between items-center mb-4 sm:mb-6">
                   <h2 className="text-2xl font-bold text-amber-900">
                     Book {selectedRoom.name}
                   </h2>
@@ -350,13 +350,13 @@ export default function Accommodation() {
                   </button>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Guest Selection */}
                   <div>
-                    <h3 className="text-lg font-medium text-amber-900 mb-3">
+                    <h3 className="text-base sm:text-lg font-medium text-amber-900 mb-2 sm:mb-3">
                       Guests
                     </h3>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       <div>
                         <label className="block text-sm font-medium text-amber-900 mb-1">
                           Adults
@@ -445,7 +445,7 @@ export default function Accommodation() {
                         }
                         className="rounded text-amber-600 focus:ring-amber-500 h-5 w-5"
                       />
-                      <span className="text-amber-900">
+                      <span className="text-amber-900 text-sm sm:text-base">
                         Bringing a pet? (Additional ₹300/night)
                       </span>
                     </label>
@@ -453,10 +453,10 @@ export default function Accommodation() {
 
                   {/* Date Selection */}
                   <div>
-                    <h3 className="text-lg font-medium text-amber-900 mb-3">
+                    <h3 className="text-base sm:text-lg font-medium text-amber-900 mb-2 sm:mb-3">
                       Select Dates
                     </h3>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       <div>
                         <label className="block text-sm font-medium text-amber-900 mb-1">
                           Check-in Date
@@ -471,7 +471,7 @@ export default function Accommodation() {
                             }))
                           }
                           min={new Date().toISOString().split("T")[0]}
-                          className="w-full p-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                          className="w-full p-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white"
                         />
                       </div>
                       <div>
@@ -491,26 +491,26 @@ export default function Accommodation() {
                             bookingDetails.checkIn ||
                             new Date().toISOString().split("T")[0]
                           }
-                          className="w-full p-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                          className="w-full p-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-amber-900 bg-white"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Price Summary */}
-                  <div className="bg-amber-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-medium text-amber-900 mb-3">
+                  <div className="bg-amber-50 p-3 sm:p-4 rounded-lg">
+                    <h3 className="text-base sm:text-lg font-medium text-amber-900 mb-2 sm:mb-3">
                       Price Summary
                     </h3>
                     <div className="space-y-2">
-                      <div className="flex justify-between">
+                      <div className="flex justify-between text-sm sm:text-base">
                         <span className="text-amber-900">Base price</span>
                         <span className="text-amber-900 font-medium">
                           ₹{selectedRoom.price}/night
                         </span>
                       </div>
                       {bookingDetails.adults + bookingDetails.children > 2 && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between text-sm sm:text-base">
                           <span className="text-amber-900">
                             Extra guests (
                             {bookingDetails.adults +
@@ -529,7 +529,7 @@ export default function Accommodation() {
                         </div>
                       )}
                       {bookingDetails.hasPet && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between text-sm sm:text-base">
                           <span className="text-amber-900">Pet fee</span>
                           <span className="text-amber-900 font-medium">
                             ₹300/night
@@ -537,7 +537,7 @@ export default function Accommodation() {
                         </div>
                       )}
                       {bookingDetails.checkIn && bookingDetails.checkOut && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between text-sm sm:text-base">
                           <span className="text-amber-900">
                             Number of nights
                           </span>
@@ -551,7 +551,7 @@ export default function Accommodation() {
                         </div>
                       )}
                       <div className="border-t border-amber-200 my-2"></div>
-                      <div className="flex justify-between font-bold">
+                      <div className="flex justify-between font-bold text-sm sm:text-base">
                         <span className="text-amber-900">Total</span>
                         <span className="text-amber-900">
                           ₹{calculateTotalPrice()}
@@ -564,7 +564,7 @@ export default function Accommodation() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-lg"
+                    className="w-full bg-amber-800 text-amber-50 px-6 py-3 rounded-lg font-medium tracking-wide hover:bg-amber-900 transition-all duration-300 text-base sm:text-lg"
                     disabled={
                       !bookingDetails.checkIn || !bookingDetails.checkOut
                     }
