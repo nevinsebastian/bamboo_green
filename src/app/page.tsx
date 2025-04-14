@@ -40,8 +40,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-amber-900 mb-6">
-              Welcome to Kerala&apos;s Premier Houseboat Resort
+            <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-tight text-amber-100">
+              Bamboo Green
             </h1>
             <p className="text-xl md:text-2xl max-w-2xl mb-8 text-amber-100 font-light">
               Experience the authentic beauty of Kerala&apos;s backwaters
@@ -68,7 +68,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="text-4xl font-bold text-center mb-16 tracking-tight text-amber-900"
           >
-            Experience Kerala's Heritage
+            Experience Kerala&apos;s Heritage
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div
@@ -195,7 +195,7 @@ export default function Home() {
                   <h3 className="text-3xl font-medium mb-4 tracking-tight">
                     Individual Rooms
                   </h3>
-                  <p className="text-lg text-amber-800 mb-8">
+                  <p className="text-lg mb-6 text-amber-100 font-light">
                     Rent a single room in our luxurious houseboats
                   </p>
                   <Link href="/accommodation">
@@ -228,7 +228,7 @@ export default function Home() {
                   <h3 className="text-3xl font-medium mb-4 tracking-tight">
                     Full Property
                   </h3>
-                  <p className="text-lg text-amber-800 mb-8">
+                  <p className="text-lg mb-6 text-amber-100 font-light">
                     Rent the entire resort for exclusive use
                   </p>
                   <Link href="/accommodation">

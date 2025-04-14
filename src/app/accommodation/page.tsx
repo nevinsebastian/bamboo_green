@@ -601,16 +601,14 @@ export default function Accommodation() {
                     >
                       Book
                     </motion.button>
-                    <p className="text-sm text-amber-600 mt-2">
+                    <p className="text-xs text-amber-600 text-center">
                       By booking, you agree to our{" "}
                       <button
                         onClick={() => setIsTermsModalOpen(true)}
-                        className="text-amber-800 underline hover:text-amber-900"
+                        className="text-amber-800 hover:text-amber-900 underline"
                       >
                         Terms and Conditions
                       </button>
-                      . Please review them before proceeding with your booking.
-                      We&apos;re excited to welcome you to our houseboat!
                     </p>
                   </div>
                 </div>
