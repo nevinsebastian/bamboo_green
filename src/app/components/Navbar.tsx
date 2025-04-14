@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
@@ -26,19 +27,24 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-24">
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold tracking-tight text-amber-50">
-                Bamboo Green
-              </span>
+              <Image
+                src="/images/logo2.png"
+                alt="Bamboo Green Logo"
+                width={170}
+                height={170}
+                className="object-contain md:w-[170px] md:h-[170px] w-[100px] h-[100px] ml-4 md:ml-0"
+                priority
+              />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
+          <div className="hidden md:block ml-auto">
+            <div className="flex items-center space-x-8">
               <Link
                 href="/"
                 className="text-amber-100 hover:text-amber-50 px-3 py-2 text-sm font-medium tracking-wide transition-colors duration-300"
